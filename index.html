@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>API(Application Programming Interface) Calling</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    </head>
+    <body>
+        <div id="getId">
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Album ID</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Url</th>
+                    <th scope="col">ThumbnailUrl</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            </tbody>
+        </table>
+        
+
+        <script>
+             function Myfunc(obj,cbfn){
+
+                console.log(obj);
+                cbfn(obj);
+                //return obj;
+            }
+            Myfunc({name:'Kiran',surname:"Rathor"},function(res){
+                console.log(res);
+                console.log(typeof res);
+                console.log(res.name);
+                console.log(res.surname);
+            }); 
+
+
+            var x = document.getElementById('getId');
+            console.log(x);
+
+            //1. function defination 
+            function getName(name,mycbfn) {
+                //difine prototype
+                //my call back function
+
+                console.log('hello, '+name);
+                mycbfn('My name is a '+name);
+                return 'hello, '+name;
+               
+            }
+
+            //2.function calling
+            var t = getName('kiran',function(result){
+                console.log(result);
+            });
+            console.log(t+' how are you');
+
+            class Myclass{
+                //1. propety
+
+                //2.construction 
+                
+                //3.mthods
+                 getName (name) {
+                    console.log('Hello My name is a Anjali');
+                    
+                }
+            
+            }
+            </script>
+
+            <script> 
+            //craete a new object from the MyClass
+            //syntax let objectname = new ClassName();
+            
+
+            //1.function defination
+            //function getPhoto(url,mycbfn){
+            function getPhoto(url,method,mycbfn){
+
+                let xhrt = new XMLHttpRequest();
+
+                xhrt.open(method,url);
+            
+                xhrt.send();
+
+                xhrt.onload = function(response){
+                    //console.log(xhrt.responseText);
+                    //console.log(typeof xhrt.responseText);
+                    mycbfn(xhrt.responseText);
+                }
+
+               
+            }
+
+            //2.function calling
+            getPhoto('https://jsonplaceholder.typicode.com/photos','GET',function(response){
+                
+                //console.log(response);
+                //console.log(typeof response);
+
+                response = JSON.parse(response);//json string to json object
+
+                console.log(response);
+                //console.log(typeof response);
+
+                var t = document.querySelector('table > tbody');
+                    //console.log(t);
+                
+                response.forEach((currentElement,index,arr) => {
+                    console.log(currentElement);
+                        var tr = document.createElement('tr');
+                            //console.log(tr);
+
+                        var td1 = document.createElement('td');
+                             //console.log(td1);
+                        td1.innerHTML = currentElement.albumId;
+
+                        var td2 = document.createElement('td');
+                            //console.log(td2);
+                            td2.innerHTML = currentElement.id;
+
+                        var td3 = document.createElement('td');
+                            //console.log(td3);
+                            td3.innerHTML = currentElement.title;
+
+                        var td4 = document.createElement('td');
+                            //console.log(td4);
+                            td4.innerHTML = currentElement.url;
+
+                        var td5 = document.createElement('td');
+                        var img = document.createElement('img');
+                            img.setAttribute("src",currentElement.thumbnailUrl);
+                            //console.log(td5);
+                            td5.appendChild(img);
+                            //img.innerHTML = currentElement.thumbnailurl;
+
+                            tr.appendChild(td1);
+                            tr.appendChild(td2);
+                            tr.appendChild(td3);
+                            tr.appendChild(td4);
+                            tr.appendChild(td5);
+                            t.appendChild(tr);
+                });
+            });
+
+         </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    </body>
+</html>
